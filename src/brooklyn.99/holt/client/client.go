@@ -5,11 +5,20 @@ import (
 	"os"
 )
 
+var global_client_hostname string
 var global_holt_host string
 var global_holt_port int
 var global_holt_interval int
 
 func main() {
+
+	hostname, err := os.Hostname()
+	if err != nil {
+		write_log("init", fmt.Sprintf("Error getting hostname: %v\n", err))
+		os.Exit(1)
+	}
+
+	global_client_hostname = hostname
 
 	// Loading configuration from disk (implemented in config.go)
 	config, err := load_config()

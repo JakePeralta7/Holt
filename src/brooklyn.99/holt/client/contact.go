@@ -24,5 +24,5 @@ func get(uri string) {
 		write_log("contact", err.Error())
 	}
 
-	write_log("contact", string(body))
+	write_log("contact", fmt.Sprintf("Recieved '%s' from the server", string(body)))
 }

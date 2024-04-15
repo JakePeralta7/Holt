@@ -13,10 +13,10 @@ func write_log(component string, message string) {
 		log.Fatal(err)
 	}
 
-	component = fmt.Sprintf("%s: ", component)
+	prefix := fmt.Sprintf("%s [%s]: ", global_client_hostname, component)
 
 	// Create a new logger
-	logger := log.New(file, component, log.LstdFlags)
+	logger := log.New(file, prefix, log.LstdFlags)
 
 	// Write the log
 	logger.Println(message)
