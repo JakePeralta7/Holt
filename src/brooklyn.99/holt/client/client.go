@@ -6,9 +6,9 @@ import (
 )
 
 var global_client_hostname string
-var global_holt_host string
-var global_holt_port int
-var global_holt_interval int
+var global_server_host string
+var global_server_port int
+var global_server_interval int
 
 func main() {
 
@@ -30,13 +30,13 @@ func main() {
 	// Printing the server section
 	current_config_section := "server"
 	if config[current_config_section] != nil {
-		global_holt_host = config[current_config_section]["host"].(string)
-		global_holt_port = config[current_config_section]["port"].(int)
-		global_holt_interval = config[current_config_section]["interval"].(int)
+		global_server_host = config[current_config_section]["host"].(string)
+		global_server_port = config[current_config_section]["port"].(int)
+		global_server_interval = config[current_config_section]["interval"].(int)
 
 		// Logs the loaded `server` configuration
 		write_log("init", fmt.Sprintf("Loading %s configuration:\n\t[%s]\n\thost = %s\n\tport = %d\n\tinterval = %d\n",
-			current_config_section, current_config_section, global_holt_host, global_holt_port, global_holt_interval))
+			current_config_section, current_config_section, global_server_host, global_server_port, global_server_interval))
 	}
 
 	get("/help")
