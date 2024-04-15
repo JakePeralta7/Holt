@@ -1,20 +1,21 @@
 package main
 
 import (
+	"fmt"
+	"os"
 	"strconv"
 
 	"gopkg.in/ini.v1"
 )
 
-func load_config() (map[string]map[string]interface{}, error) {
+func load_config() {
 
 	// Loading the config from the path `$CWD\config.ini`
 	cfg, err := ini.Load("config.ini")
 	if err != nil {
-		return nil, err
+		write_log("init", fmt.Sprintf("Error loading config: %v\n", err))
+		os.Exit(1)
 	}
-
-	config := make(map[string]map[string]interface{})
 
 	// Loading the `server` section from the config file
 	server_section_name := "server"
@@ -54,8 +55,10 @@ func load_config() (map[string]map[string]interface{}, error) {
 			config_server["interval"] = 15
 		}
 
-		config[server_section_name] = config_server
+		GLOBAL_CONFIG[server_section_name] = config_server
 	}
 
-	return config, nil
+	// Logs the loaded `server` configuration
+	write_log("init", fmt.Sprintf("Loading %s configuration:\n\t[%s]\n\tinstance_name = %s\n\thost = %s\n\tport = %d\n\tinterval = %d\n",
+		"server", "server", GLOBAL_CONFIG["server"]["instance_name"], GLOBAL_CONFIG["server"]["host"], GLOBAL_CONFIG["server"]["port"], GLOBAL_CONFIG["server"]["interval"]))
 }
