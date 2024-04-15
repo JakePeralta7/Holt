@@ -7,7 +7,7 @@ import (
 )
 
 func get(uri string) {
-	url := fmt.Sprintf("http://%s:%d%s", global_server_host, global_server_port, uri)
+	url := fmt.Sprintf("http://%s:%d%s", GLOBAL_CONFIG["server"]["host"], GLOBAL_CONFIG["server"]["port"], uri)
 
 	write_log("contact", fmt.Sprintf("Performing GET request to '%s'", url))
 
