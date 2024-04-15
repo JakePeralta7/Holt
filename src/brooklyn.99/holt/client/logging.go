@@ -15,7 +15,7 @@ func write_log(component string, message string) {
 	}
 
 	// Formatting the prefix for the line, for example "WIN10-HOST [init]:"
-	prefix := fmt.Sprintf("%s [%s]: ", global_client_hostname, component)
+	prefix := fmt.Sprintf("%s [%s]: ", GLOBAL_CLIENT_HOSTNAME, component)
 
 	// Create a new logger
 	logger := log.New(file, prefix, log.LstdFlags)
