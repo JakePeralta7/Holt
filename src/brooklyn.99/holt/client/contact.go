@@ -7,8 +7,7 @@ import (
 )
 
 func get(uri string) {
-	url := fmt.Sprintf("http://%s:%d%s",
-		global_server_host, global_server_port, uri)
+	url := fmt.Sprintf("http://%s:%d%s", global_server_host, global_server_port, uri)
 
 	fmt.Printf("URL: %s\n",
 		url)
