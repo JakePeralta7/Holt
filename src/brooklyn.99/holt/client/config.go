@@ -18,6 +18,38 @@ func load_config() {
 
 	var current_section_name string
 
+	// Loading the `client` section from the config file
+	current_section_name = "client"
+	client_section, err := cfg.GetSection(current_section_name)
+	if err != nil {
+		write_log("config", err.Error())
+		os.Exit(1)
+	} else {
+		config_client := make(map[string]interface{})
+
+		// The port the Holt client listens on
+		client_port, err := client_section.Key("port").Int()
+		if err != nil {
+			config_client["port"] = 8080
+		} else {
+			config_client["port"] = client_port
+		}
+
+		// The directory in which the client.log will be stored
+		client_log_dir := client_section.Key("log_dir").String()
+		if client_log_dir != "" {
+			config_client["log_dir"] = client_log_dir
+		} else {
+			config_client["log_dir"] = "."
+		}
+
+		GLOBAL_CONFIG[current_section_name] = config_client
+	}
+
+	// Logs the loaded `client` configuration
+	write_log("config", fmt.Sprintf("Loading %s configuration:\n\t[%s]\n\tport = %d\n\tlog_dir = %s\n",
+		current_section_name, current_section_name, GLOBAL_CONFIG[current_section_name]["port"], GLOBAL_CONFIG[current_section_name]["log_dir"]))
+
 	// Loading the `server` section from the config file
 	current_section_name = "server"
 	server_section, err := cfg.GetSection(current_section_name)
@@ -65,28 +97,4 @@ func load_config() {
 	// Logs the loaded `server` configuration
 	write_log("config", fmt.Sprintf("Loading %s configuration:\n\t[%s]\n\tinstance_name = %s\n\thost = %s\n\tport = %d\n\tinterval = %d\n",
 		current_section_name, current_section_name, GLOBAL_CONFIG[current_section_name]["instance_name"], GLOBAL_CONFIG[current_section_name]["host"], GLOBAL_CONFIG[current_section_name]["port"], GLOBAL_CONFIG[current_section_name]["interval"]))
-
-	// Loading the `client` section from the config file
-	current_section_name = "client"
-	client_section, err := cfg.GetSection(current_section_name)
-	if err != nil {
-		write_log("config", err.Error())
-		os.Exit(1)
-	} else {
-		config_client := make(map[string]interface{})
-
-		// The port the Holt client listens on
-		client_port, err := client_section.Key("port").Int()
-		if err != nil {
-			config_client["port"] = 8080
-		} else {
-			config_client["port"] = client_port
-		}
-
-		GLOBAL_CONFIG[current_section_name] = config_client
-	}
-
-	// Logs the loaded `client` configuration
-	write_log("config", fmt.Sprintf("Loading %s configuration:\n\t[%s]\n\tport = %d\n",
-		current_section_name, current_section_name, GLOBAL_CONFIG[current_section_name]["port"]))
 }
