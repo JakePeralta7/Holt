@@ -51,10 +51,10 @@ func load_config() {
 			config_server["port"] = server_port
 		}
 
-		// The directory in which the client.log will be stored
-		client_log_dir := server_section.Key("log_dir").String()
-		if client_log_dir != "" {
-			config_server["log_dir"] = client_log_dir
+		// The directory in which the server.log will be stored
+		server_log_dir := server_section.Key("log_dir").String()
+		if server_log_dir != "" {
+			config_server["log_dir"] = server_log_dir
 		} else {
 			config_server["log_dir"] = "."
 		}
@@ -99,18 +99,10 @@ func load_config() {
 			config_database["port"] = server_port
 		}
 
-		// The directory in which the client.log will be stored
-		client_log_dir := database_section.Key("log_dir").String()
-		if client_log_dir != "" {
-			config_database["log_dir"] = client_log_dir
-		} else {
-			config_database["log_dir"] = "."
-		}
-
 		GLOBAL_CONFIG[current_section_name] = config_database
 	}
 
-	// Logs the loaded `server` configuration
-	write_log("config", fmt.Sprintf("Loading %s configuration:\n\t[%s]\n\tinstance_name = %s\n\thost = %s\n\tport = %d\n\tlog_dir = %s\n",
-		current_section_name, current_section_name, GLOBAL_CONFIG[current_section_name]["instance_name"], GLOBAL_CONFIG[current_section_name]["host"], GLOBAL_CONFIG[current_section_name]["port"], GLOBAL_CONFIG[current_section_name]["log_dir"]))
+	// Logs the loaded `database` configuration
+	write_log("config", fmt.Sprintf("Loading %s configuration:\n\t[%s]\n\thost = %s\n\tport = %d\n",
+		current_section_name, current_section_name, GLOBAL_CONFIG[current_section_name]["host"], GLOBAL_CONFIG[current_section_name]["port"]))
 }
